@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cartMapper">
+	
+	<insert id="insert" parameterType="CartDTO">
+	  <selectKey keyProperty="cartnum" resultType="int" order="BEFORE"> 
+         select ifnull(max(cartnum+1),1) from cart
+      </selectKey>
+		insert into cart(cartnum,userid,code,cname,price,qty,size) 
+        values(#{cartnum},#{userid},#{code},#{cname},#{price},#{qty},#{size})   
+	</insert>
+		
+    <select id="selectList" resultType="CartDTO">
+     select *,
+	 (select sum(price) from cart where userid=#{userid})totprice
+	 from cart 
+	 where userid = #{userid}
+    </select>
+	
+	<select id="totupdate" resultType="CartDTO">
+		select sum(price) totprice from cart 
+		 where userid = #{userid}
+	</select>
+		
+	<delete id="delete">
+		delete from cart where cartnum = #{cartnum}
+	</delete>
+	
+	<delete id="allDelete">
+		delete from cart where userid = #{userid}
+	</delete>
+	
+	
+</mapper>

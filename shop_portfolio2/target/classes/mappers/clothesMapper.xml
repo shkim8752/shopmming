@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="clothesMapper">
+	<sql id="find">
+		<if test="findKey == 'code'">
+			where code like concat('%',#{findValue},'%')
+		</if>
+		<if test="findKey == 'cname'">
+			where cname like concat('%',#{findValue},'%')
+		</if>
+		<if test="findKey == 'ctype'">
+			where ctype like concat('%',#{findValue},'%')
+		</if>
+	</sql>
+	
+	<sql id="sizefind">
+		<if test="findKey == 'code'">
+			and c.code like concat('%',#{findValue},'%')
+		</if>
+		<if test="findKey == 'cname'">
+			and c.cname like concat('%',#{findValue},'%')
+		</if>
+		<if test="findKey == 'ctype'">
+			and c.ctype like concat('%',#{findValue},'%')
+		</if>
+	</sql>
+
+	<!-- 전체건수 -->
+	<select id="totCount" resultType="int">
+		select count(*) totCnt
+		from size
+		<include refid="find"/>
+	</select>
+	
+	<!-- top조회 -->
+	<select id="selectTop" resultType="clothesDTO">
+		select * from clothes
+		where ctype = 'top'
+	</select>
+	
+	<!-- pants조회 -->
+	<select id="selectPants" resultType="clothesDTO">
+		select * from clothes
+		where ctype = 'pants'	
+	</select>
+	
+	<!-- shoes조회 -->
+	<select id="selectShoes" resultType="clothesDTO">
+		select * from clothes
+		where ctype = 'shoes'	
+	</select>
+	
+	<!-- 조회 -->
+	<select id="selectList" resultType="clothesDTO">
+	
+		select c.code,c.cname,c.ctype,c.price,s.qty,s.size
+		from clothes c, size s
+		where c.code = s.code
+		<include refid="sizefind"/>
+		order by c.code desc
+		limit #{startNo},#{perPage}
+	
+	</select>
+	
+	<select id="selectOne" resultType="clothesDTO">
+		select * from clothes where code = #{code}
+	</select>
+	
+	<insert id="insert" parameterType="clothesDTO">
+		insert into clothes (code, cname, ctype, price, filename) 
+		values (#{code}, #{cname}, #{ctype}, #{price},#{filename})
+	</insert>
+	
+	<update id="update">
+		update clothes 
+		set 
+			cname = #{cname},
+			ctype = #{ctype},
+			price = #{price}
+		where code = #{code}	
+	</update>	
+	
+	<delete id="delete">
+		delete from clothes where code = #{code}
+	</delete>
+	
+
+
+	
+	
+	
+</mapper>

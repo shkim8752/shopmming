@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 널값 허용 -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.spring.dto.ShopMemberDTO" alias="shopMemberDTO"/>
+	     <typeAlias type="com.spring.dto.ClothesDTO" alias="ClothesDTO"/>
+		<typeAlias type="com.spring.dto.CfileDTO" alias="CfileDTO"/>
+		<typeAlias type="com.spring.dto.SizeDTO" alias="SizeDTO"/>
+		<typeAlias type="com.spring.dto.CartDTO" alias="CartDTO"/>
+	</typeAliases>
+	
+</configuration>

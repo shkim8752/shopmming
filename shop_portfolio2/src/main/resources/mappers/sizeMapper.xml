@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sizeMapper">
+
+	<insert id="insert" parameterType="sizeDTO">
+		insert into size (code, size, qty) 
+		values (#{code}, #{size}, #{qty})
+	</insert>
+	
+	<delete id="delete" parameterType="sizeDTO">
+		delete from size where code = #{code} and size = #{size}
+	</delete>
+	
+	<select id="selectOne" parameterType="sizeDTO" resultType="sizeDTO">
+		select * from size where code = #{code} and size = #{size}	
+	</select>
+	
+	<update id="update">
+		update size 
+		set
+			size = #{size},
+			qty = #{qty}
+		where code = #{code}
+	</update>
+	
+	<select id="selectCnt" resultType="int">
+		select count(*) totCnt
+		from size
+		where code =#{code};	
+	</select>
+	
+	<select id="selectSize" resultType="HashMap" >
+		select size.size
+		from size
+		where code =#{code};	
+	</select>
+	
+	<update id="sizeupdate" >
+		update size
+		set qty = qty - #{qty}
+		where code = #{code}
+	</update>
+
+
+
+</mapper>
